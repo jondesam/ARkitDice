@@ -9,15 +9,20 @@
 import UIKit
 import SceneKit
 import ARKit
+import AVFoundation
 
 class ViewController: UIViewController, ARSCNViewDelegate {
+    
+    var player : AVAudioPlayer?
+    
+    var diceArray = [SCNNode]()
     
     @IBOutlet var sceneView: ARSCNView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+      //  self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -93,7 +98,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             //                print("touched somewhere else")
             //            }
             
-            
             //verifing result
             //            if let hitResult = results.first {
             //                print(hitResult)
@@ -107,30 +111,71 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     
                     diceNode.position = SCNVector3(
                         x: hitResult.worldTransform.columns.3.x,
-                        y: hitResult.worldTransform.columns.3.y + diceNode.boundingSphere.radius,
-                        z: hitResult.worldTransform.columns.3.z)
+                        y: hitResult.worldTransform.columns.3.y ,// + diceNode.boundingSphere.radius // to move above
+                        z: hitResult.worldTransform.columns.3.z
+                    )
+                    
+                    diceArray.append(diceNode)
                     
                     sceneView.scene.rootNode.addChildNode(diceNode)
                     
-                    let randomX = Float(arc4random_uniform(4) + 1) * (Float.pi/2)
+                    roll(dice: diceNode )
+
+                    playSound()
                     
-                    let randomZ = Float(arc4random_uniform(4) + 1) * (Float.pi/2)
-                    
-                    diceNode.runAction(
-                        SCNAction.rotateBy(
-                            x: CGFloat(randomX * 5),
-                            y: 0,
-                            z: CGFloat(randomZ * 5),
-                            duration: 0.5) //half a second
-                    )
-            }
-            
-        
+//moved to func roll(dice: SCNNode)
+//                    let randomX = Float(arc4random_uniform(4) + 1) * (Float.pi/2)
+//
+//                    let randomZ = Float(arc4random_uniform(4) + 1) * (Float.pi/2)
+//
+//                    diceNode.runAction(
+//                        SCNAction.rotateBy(
+//                            x: CGFloat(randomX * 5),
+//                            y: 0,
+//                            z: CGFloat(randomZ * 5),
+//                            duration: 0.5) //half a second
+//                    )
+                }
             }
         }
     }
     
     
+    func rollAll() {
+        if !diceArray.isEmpty {
+            for dice in diceArray {
+                roll(dice: dice)
+            }
+        }
+    }
+    
+    func roll(dice: SCNNode) {
+       
+        let randomX = Float(arc4random_uniform(4) + 1) * (Float.pi/2)
+        
+        let randomZ = Float(arc4random_uniform(4) + 1) * (Float.pi/2)
+        
+        dice.runAction(
+            SCNAction.rotateBy(
+                x: CGFloat(randomX * 5),
+                y: 0,
+                z: CGFloat(randomZ * 5),
+                duration: 0.5) //half a second
+        )
+    }
+    
+    
+    
+    @IBAction func RollAgain(_ sender: UIBarButtonItem) {
+        rollAll()
+        playSound()
+        
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        rollAll()
+        playSound()
+    }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         
@@ -162,4 +207,23 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             return
         }
     }
+    
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "vodka", withExtension: "wav") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+            
+            guard let player = player else { return }
+            
+            player.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
 }

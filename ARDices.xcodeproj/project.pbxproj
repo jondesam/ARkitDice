@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9553C025221DC5540036D256 /* vodka.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9553C024221DC5540036D256 /* vodka.wav */; };
 		95E57C66221A03CC00148E5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E57C65221A03CC00148E5B /* AppDelegate.swift */; };
 		95E57C68221A03CC00148E5B /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 95E57C67221A03CC00148E5B /* art.scnassets */; };
 		95E57C6A221A03CC00148E5B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E57C69221A03CC00148E5B /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9553C024221DC5540036D256 /* vodka.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = vodka.wav; path = ../../../vodka.wav; sourceTree = "<group>"; };
 		95E57C62221A03CC00148E5B /* ARDices.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARDices.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95E57C65221A03CC00148E5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95E57C67221A03CC00148E5B /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 		95E57C64221A03CC00148E5B /* ARDices */ = {
 			isa = PBXGroup;
 			children = (
+				9553C024221DC5540036D256 /* vodka.wav */,
 				95E57C65221A03CC00148E5B /* AppDelegate.swift */,
 				95E57C69221A03CC00148E5B /* ViewController.swift */,
 				95E57C6B221A03CC00148E5B /* Main.storyboard */,
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95E57C68221A03CC00148E5B /* art.scnassets in Resources */,
+				9553C025221DC5540036D256 /* vodka.wav in Resources */,
 				95E57C72221A03CD00148E5B /* LaunchScreen.storyboard in Resources */,
 				95E57C6F221A03CD00148E5B /* Assets.xcassets in Resources */,
 				95E57C6D221A03CC00148E5B /* Main.storyboard in Resources */,
