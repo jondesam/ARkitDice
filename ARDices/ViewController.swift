@@ -22,6 +22,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       
       //  self.sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
         // Set the view's delegate
@@ -68,7 +69,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-        
+
+      
         configuration.planeDetection = .horizontal
         
         print("Session is supported = \(  ARConfiguration.isSupported)")
@@ -86,11 +88,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         if let touch = touches.first {
             let touchLocaion = touch.location(in: sceneView)
-            
+    
             let results = sceneView.hitTest(touchLocaion, types: .existingPlaneUsingExtent)
-            
+        
             //printing result
             //            if !results.isEmpty {
             //                print("touched the plane")
@@ -114,6 +117,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                         y: hitResult.worldTransform.columns.3.y ,// + diceNode.boundingSphere.radius // to move above
                         z: hitResult.worldTransform.columns.3.z
                     )
+                    //putting dices on user's touch point
                     
                     diceArray.append(diceNode)
                     
@@ -122,19 +126,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     roll(dice: diceNode )
 
                     playSound()
-                    
-//moved to func roll(dice: SCNNode)
-//                    let randomX = Float(arc4random_uniform(4) + 1) * (Float.pi/2)
-//
-//                    let randomZ = Float(arc4random_uniform(4) + 1) * (Float.pi/2)
-//
-//                    diceNode.runAction(
-//                        SCNAction.rotateBy(
-//                            x: CGFloat(randomX * 5),
-//                            y: 0,
-//                            z: CGFloat(randomZ * 5),
-//                            duration: 0.5) //half a second
-//                    )
                 }
             }
         }
@@ -177,7 +168,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         playSound()
     }
     
+    @IBAction func RemoveAllDices(_ sender: UIBarButtonItem) {
+        
+        if !diceArray.isEmpty {
+            for dice in diceArray {
+                dice.removeFromParentNode()
+            }
+        }
+    
+    
+    }
+    
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        print("Delegate method called")
         
         if anchor is ARPlaneAnchor {
             
@@ -189,7 +192,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             let planeNode = SCNNode()
             
-            planeNode.position = SCNVector3(x: planeAnchor.center.x, y: 0, z: planeAnchor.center.z)
+            planeNode.position = SCNVector3(
+                x: planeAnchor.center.x,
+                y: 0,
+                z: planeAnchor.center.z)
             
             planeNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
             
@@ -209,6 +215,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func playSound() {
+        
         guard let url = Bundle.main.url(forResource: "vodka", withExtension: "wav") else { return }
         
         do {
@@ -225,5 +232,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             print(error.localizedDescription)
         }
     }
+
+//    let soundNames = ["soundName1", "soundName2", "soundName3"]
+//
+//    let randomSoundName = soundNames[Int(arc4random_uniform(UInt32(soundNames.count)))]
+//
+//    let randomSound = self.run(SKAction.playSoundFileNamed(randomSoundName, waitForCompletion: false))
     
 }

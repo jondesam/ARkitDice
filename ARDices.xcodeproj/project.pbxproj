@@ -58,7 +58,6 @@
 		95E57C64221A03CC00148E5B /* ARDices */ = {
 			isa = PBXGroup;
 			children = (
-				9553C024221DC5540036D256 /* vodka.wav */,
 				95E57C65221A03CC00148E5B /* AppDelegate.swift */,
 				95E57C69221A03CC00148E5B /* ViewController.swift */,
 				95E57C6B221A03CC00148E5B /* Main.storyboard */,
@@ -66,6 +65,7 @@
 				95E57C6E221A03CD00148E5B /* Assets.xcassets */,
 				95E57C70221A03CD00148E5B /* LaunchScreen.storyboard */,
 				95E57C73221A03CD00148E5B /* Info.plist */,
+				9553C024221DC5540036D256 /* vodka.wav */,
 			);
 			path = ARDices;
 			sourceTree = "<group>";
